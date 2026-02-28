@@ -7,7 +7,7 @@
 // terms = number of terms from the Taylor expansion
 // x = array of inputs
 // y = array of outputs
-void sinx(size_t const N, size_t const terms, float * const x, float * const y) {
+void sinx(size_t const N, size_t const terms, float const * const x, float * const y) {
     for (size_t i {0}; i < N; i++) {
         float value = x[i];
 
