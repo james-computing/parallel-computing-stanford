@@ -2,4 +2,4 @@
 
 #include <cstddef>
 
-void sinx(int N, int terms, float* x, float* y);
+void sinx(size_t const N, size_t const terms, float* x, float* y);
