@@ -5,8 +5,8 @@
 
 int main() {
     // Alloc resources
-    const size_t N {10};
-    const size_t terms {10};
+    size_t const N {10};
+    size_t const terms {10};
     float * x = new float[N];
     float * y = new float[N];
 
