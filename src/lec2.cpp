@@ -1,4 +1,4 @@
-#include "../include/2-lec.hpp"
+#include "../include/lec2.hpp"
 
 namespace lec2
 {

@@ -2,7 +2,7 @@
 //#include <cmath>
 #include <chrono>
 
-#include "../include/2-lec.hpp"
+#include "../include/lec2.hpp"
 
 int main() {
     // Alloc resources
