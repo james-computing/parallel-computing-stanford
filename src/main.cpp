@@ -23,14 +23,14 @@ int main() {
 
     // Compute sin(x[i]) for each i, and output the results to y
     begin = std::chrono::steady_clock::now();
-    sinx(N, terms, x, y);
+    lec2::sinx(N, terms, x, y);
     end = std::chrono::steady_clock::now();
     
     std::cout << "time sinx: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count() << std::endl;
 
     // Compute again, but with 2 threads
     begin = std::chrono::steady_clock::now();
-    parallel_sinx(N, terms, x, y);
+    lec2::parallel_sinx(N, terms, x, y);
     end = std::chrono::steady_clock::now();
 
     std::cout << "time parallel_sinx: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count() << std::endl;

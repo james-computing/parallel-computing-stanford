@@ -1,6 +1,7 @@
 #include "../include/2-lec.hpp"
 
-#include <iostream>
+namespace lec2
+{
 
 // Computes sin(value) for each value in an array x.
 // It uses the Taylor expansion sin(x) = x -x^3/3! +x^5/5! ...
@@ -44,4 +45,6 @@ void parallel_sinx(size_t const N, size_t const terms, float const * const x, fl
     std::thread my_thread = std::thread(my_thread_func, &args); // lauch thread
     sinx(N-args.N, terms, x + args.N, y + args.N); // do work on main thread
     my_thread.join();
+}
+
 }
