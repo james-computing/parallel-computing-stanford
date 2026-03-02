@@ -1,6 +1,6 @@
 cxx = g++
 CXXFLAGS = -std=c++23 -O3 #-ggdb
-LDFLAGS =
+LDFLAGS = -mavx2 # for SIMD
 SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = .
