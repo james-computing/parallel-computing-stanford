@@ -461,9 +461,9 @@ void execute_examples() {
     std::cout << "(not optimized simd time)/(optimized simd time) = " << ((float)not_optimized_simd_time)/optimized_simd_time << std::endl;
 
     // Cleanup
-    delete[] y_reference;
-    delete[] y;
-    delete[] x;
+    std::free(y_reference);
+    std::free(y);
+    std::free(x);
     y_reference = nullptr;
     y = nullptr;
     x = nullptr;
