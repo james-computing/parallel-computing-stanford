@@ -130,6 +130,7 @@ void no_simd_baseline(size_t const N, float const * const x, float * const y) {
 }
 
 // Use if the cpu supports AVX512
+//#define AVX512
 #ifdef AVX512
 // It assumes that N is multiple of 8
 void simd_with_branching_AVX512(size_t const N, float const * const x, float * const y) {
@@ -141,9 +142,6 @@ void simd_with_branching_AVX512(size_t const N, float const * const x, float * c
     __m256 input_vector;
     __m256 result_vector;
     __mmask8 mask;
-
-    // Pointer just for reading the results from SIMD
-    float const * const result_float_ptr {(float const *) &result_vector};
 
     // Some constants to use in the SIMD operations
     __m256 const zero {_mm256_set1_ps(0.0)};
@@ -194,7 +192,7 @@ void simd_with_branching_AVX512(size_t const N, float const * const x, float * c
         result_vector = _mm256_mask_div_ps(input_vector, mask, input_vector, ten);
 
         // Copy the results to output
-        memcpy(output_ptr, result_float_ptr, 8*sizeof(float));
+        _mm256_storeu_ps(output_ptr, result_vector);
 
         // Advance to next 8 float values
         input_ptr += 8;
@@ -289,9 +287,6 @@ void simd_optimized_for_good_init(size_t const N, float const * const x, float *
     __m256 input_vector;
     __m256 result_vector;
 
-    // Pointers just for reading the results from SIMD
-    float const * const result_float_ptr {(float const *) &result_vector};
-
     // Some constants to use in the SIMD operations
     __m256 const ten {_mm256_set1_ps(10.0)};
     __m256 const thirty {_mm256_set1_ps(30.0)};
@@ -327,7 +322,7 @@ void simd_optimized_for_good_init(size_t const N, float const * const x, float *
         result_vector = _mm256_add_ps(result_vector, ten);
 
         // Copy the results to output
-        memcpy(output_ptr, result_float_ptr, 8*sizeof(float));
+        _mm256_storeu_ps(output_ptr, result_vector);
 
         // Advance to next 8 values
         input_ptr += 8;
@@ -346,7 +341,7 @@ void simd_optimized_for_good_init(size_t const N, float const * const x, float *
         result_vector = _mm256_div_ps(result_vector, ten);
 
         // Copy the results to output
-        memcpy(output_ptr, result_float_ptr, 8*sizeof(float));
+        _mm256_storeu_ps(output_ptr, result_vector);
 
         // Advance to next 8 values
         input_ptr += 8;
