@@ -152,8 +152,8 @@ void simd_with_branching_AVX512(size_t const N, float const * const x, float * c
 
     for (size_t i {0}; i < N/8; ++i) {
         // Copy 8 floats from x to v, starting from where input_ptr is pointing to.
-        // Use the unaligned version, loadu.
-        input_vector = _mm256_loadu_ps(input_ptr);
+        // Use the aligned version, load.
+        input_vector = _mm256_load_ps(input_ptr);
 
         // Compute the mask.
         // It is true when value > 0.0.
@@ -192,7 +192,7 @@ void simd_with_branching_AVX512(size_t const N, float const * const x, float * c
         result_vector = _mm256_mask_div_ps(input_vector, mask, input_vector, ten);
 
         // Copy the results to output
-        _mm256_storeu_ps(output_ptr, result_vector);
+        _mm256_store_ps(output_ptr, result_vector);
 
         // Advance to next 8 float values
         input_ptr += 8;
@@ -228,8 +228,8 @@ void simd_with_branching_AVX(size_t const N, float const * const x, float * cons
     for (size_t i {0}; i < N/8; ++i) {
 
         // Copy 8 floats from x to input_vector, starting from where input_ptr is pointing to.
-        // Use the unaligned version, loadu.
-        input_vector = _mm256_loadu_ps(input_ptr);
+        // Use the aligned version, load.
+        input_vector = _mm256_load_ps(input_ptr);
 
         // Do the operations corresponding to the condition value > 0.0
         // Do something expensive.
@@ -292,12 +292,12 @@ void simd_optimized_for_good_init(size_t const N, float const * const x, float *
     __m256 const thirty {_mm256_set1_ps(30.0)};
     __m256 const fifty {_mm256_set1_ps(50.0)};
     __m256 const hundred {_mm256_set1_ps(100.0)};
-    
+
     size_t i {0};
     for (; i < N/64; ++i) {
         // Copy 8 floats from x to input_vector, starting from where input_ptr is pointing to.
-        // Use the unaligned version, loadu.
-        input_vector = _mm256_loadu_ps(input_ptr);
+        // Use the aligned version, load.
+        input_vector = _mm256_load_ps(input_ptr);
 
         // Do the operations corresponding to the condition value > 0.0
         // Do something expensive.
@@ -322,7 +322,7 @@ void simd_optimized_for_good_init(size_t const N, float const * const x, float *
         result_vector = _mm256_add_ps(result_vector, ten);
 
         // Copy the results to output
-        _mm256_storeu_ps(output_ptr, result_vector);
+        _mm256_store_ps(output_ptr, result_vector);
 
         // Advance to next 8 values
         input_ptr += 8;
@@ -331,8 +331,8 @@ void simd_optimized_for_good_init(size_t const N, float const * const x, float *
 
     for (; i < N/8; ++i) {
         // Copy 8 floats from x to input_vector, starting from where input_ptr is pointing to.
-        // Use the unaligned version, loadu.
-        input_vector = _mm256_loadu_ps(input_ptr);
+        // Use the aligned version, load.
+        input_vector = _mm256_load_ps(input_ptr);
         
         // Do the operations corresponding to the condition value <= 0.0
         // Do something cheap.
@@ -341,7 +341,7 @@ void simd_optimized_for_good_init(size_t const N, float const * const x, float *
         result_vector = _mm256_div_ps(result_vector, ten);
 
         // Copy the results to output
-        _mm256_storeu_ps(output_ptr, result_vector);
+        _mm256_store_ps(output_ptr, result_vector);
 
         // Advance to next 8 values
         input_ptr += 8;
@@ -366,9 +366,15 @@ void execute_examples() {
     size_t const N {1<<exponent}; // 2^exponent
     size_t const terms {10};
     float const tolerance {1E-7}; // to compare with sin from cmath library
-    float * x = new float[N];
-    float * y = new float[N];
-    float * y_reference = new float[N];
+    size_t const size {N*sizeof(float)};
+    // Align 32 because of _mm256_load_ps and _mm256_store_ps
+    float * x = (float *) aligned_alloc(32, size);
+    float * y = (float *) aligned_alloc(32, size);
+    float * y_reference = (float *) aligned_alloc(32, size);
+
+    // Variables to measure time
+    std::chrono::steady_clock::time_point begin;
+    std::chrono::steady_clock::time_point end;
 
     std::cout << std::boolalpha;
 
@@ -381,10 +387,6 @@ void execute_examples() {
     for (size_t i {0}; i < N; ++i) {
         y_reference[i] = std::sin(x[i]);
     }
-
-    // Variables to measure time
-    std::chrono::steady_clock::time_point begin;
-    std::chrono::steady_clock::time_point end;
 
     // Compute sin(x[i]) for each i, and output the results to y
     begin = std::chrono::steady_clock::now();
