@@ -368,9 +368,9 @@ void execute_examples() {
     float const tolerance {1E-7}; // to compare with sin from cmath library
     size_t const size {N*sizeof(float)};
     // Align 32 because of _mm256_load_ps and _mm256_store_ps
-    float * x = (float *) aligned_alloc(32, size);
-    float * y = (float *) aligned_alloc(32, size);
-    float * y_reference = (float *) aligned_alloc(32, size);
+    float * x = (float *) std::aligned_alloc(32, size);
+    float * y = (float *) std::aligned_alloc(32, size);
+    float * y_reference = (float *) std::aligned_alloc(32, size);
 
     // Variables to measure time
     std::chrono::steady_clock::time_point begin;
