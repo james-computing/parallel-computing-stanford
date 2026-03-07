@@ -1,4 +1,4 @@
-Code for a Parallel Computing course from Stanford. Paga of the course: https://gfxcourses.stanford.edu/cs149/fall23/
+Code for a Parallel Computing course from Stanford. Web page of the course: https://gfxcourses.stanford.edu/cs149/fall23/
 
 It also has a playlist in YouTube:
 
