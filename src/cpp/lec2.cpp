@@ -3,6 +3,12 @@
 namespace lec2
 {
 
+void init_for_sinx(size_t const N, float * & x) {
+    for (std::size_t i {0}; i < N; ++i) {
+        x[i] = 0.1* (i % 10);
+    }
+}
+
 // Computes sin(value) for each value in an array x.
 // It uses the Taylor expansion sin(x) = x -x^3/3! +x^5/5! ...
 // This function is written in a way that is harder for hardware to parallelize.
@@ -379,9 +385,7 @@ void execute_examples() {
     std::cout << std::boolalpha;
 
     // Initialize x
-    for (std::size_t i {0}; i < N; ++i) {
-        x[i] = 0.1* (i % 10);
-    }
+    init_for_sinx(N, x);
 
     // Compute sin using the math library, to compare with my results
     for (size_t i {0}; i < N; ++i) {
