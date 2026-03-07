@@ -1,4 +1,4 @@
-#include "../../include/mandelbrot.hpp"
+#include "../../include/hpp/mandelbrot.hpp"
 
 void run_mandelbrot_example() {
     unsigned int const width = 768;

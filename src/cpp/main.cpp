@@ -1,8 +1,8 @@
 #include <iostream>
 
-//#include "../include/lec2.hpp"
-//#include "../../include/mandelbrot.hpp"
-#include "../../include/lec3.hpp"
+//#include "../include/hpp/lec2.hpp"
+//#include "../../include/hpp/mandelbrot.hpp"
+#include "../../include/hpp/lec3.hpp"
 
 int main() {
     //lec2::execute_examples();

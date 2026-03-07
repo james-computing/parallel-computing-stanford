@@ -1,6 +1,6 @@
 #pragma once
 
-#include "lec3_ispc.h"
+#include "../ispc/lec3_ispc.h"
 
 namespace lec3 {
 

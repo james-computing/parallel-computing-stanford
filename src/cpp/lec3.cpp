@@ -1,5 +1,5 @@
-#include "../../include/lec2.hpp"
-#include "../../include/lec3.hpp"
+#include "../../include/hpp/lec2.hpp"
+#include "../../include/hpp/lec3.hpp"
 
 namespace lec3 {
 
